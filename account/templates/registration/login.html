@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+
+{%block content %}
+{%if request.user.is_authenticated == False%}
+<h1>login</h1>
+{%if form.errors%}
+<h3>please username and password didn't match</h3>
+<p></p>
+<p>please try again</p>
+{%else%}
+<p>Please use the following form to login</p>
+{%endif%}
+<form action="" method="post">
+    {%csrf_token%}
+
+    {{form.as_p}}
+    <input type="hidden" name="next" value="{{next}}" id="">
+    <p></p><input type="submit" name="login_form" value="login here" id=""></p>
+</form>
+
+<p>
+    <a href="{%url 'password-reset'%}">forgotten password</a>
+</p>
+{%endif%}
+{%endblock content%}

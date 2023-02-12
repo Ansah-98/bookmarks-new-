@@ -1,0 +1,11 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<h1>Logged out</h1>
+<p>you have been successfully been logout</p>
+<h3>you can login again through the link below</h3>
+
+<p><a href="{%url 'sign-in' %}"> login here</a></p><p><a href="{%url 'user-registration'%}">register here</a></p>
+
+
+{%endblock content%}
