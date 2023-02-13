@@ -33,14 +33,15 @@ def registration(request):
             new_user = form.save(commit = False )
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
+            login(request, new_user)
             return redirect('profile_registration')
     form = UserRegistrationForm()
     return render(request,'account/register.html', {'form':form})
 
 def profile_registration(request):
     if request.method == 'POST':
-        form = Profile_form(request.POST)
-        if form.is_valid():
+        form = Profile_form(request.POST,request.FILES)
+        if form.is_valid(): 
             cd  = form.save(commit=False)
             cd.user = request.user
             cd.save()

@@ -15,11 +15,19 @@ class UserRegistrationForm(ModelForm):
         model = User
         fields = ['username','first_name','email']
     
-    def cleaned_password2(self):
+    def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
             raise forms.ValidationError(' the passwords provided dont match ')
         return cd['password2']
+
+
+    def clean_username(self):
+        username  = self.cleaned_data['username']
+        user  = User.objects.get(username = username)
+        if user is not None :
+            raise forms.ValidationError('This username is already been used')
+        return username
 
 class Profile_form(ModelForm):
     class Meta:
