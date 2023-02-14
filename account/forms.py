@@ -24,9 +24,9 @@ class UserRegistrationForm(ModelForm):
 
     def clean_username(self):
         username  = self.cleaned_data['username']
-        user  = User.objects.get(username = username)
-        if user is not None :
-            raise forms.ValidationError('This username is already been used')
+        user  = User.objects.filter(username = username).exists()
+        if user:
+            raise forms.ValidationError(f'This username {username} is already been used')
         return username
 
 class Profile_form(ModelForm):

@@ -24,21 +24,7 @@ def login_view(request):
 def dashboard(request):
     return render(request,'account/dashboard.html',{'section':'dashboard'})
 
-def registration(request):
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit = False )
-            new_user.set_password(form.cleaned_data['password'])
-            new_user.save()
-            login(request, new_user)
-            return redirect('profile_registration')
-    form = UserRegistrationForm()
-    return render(request,'account/register.html', {'form':form})
-
-def profile_registration(request):
+def profile_register(request):
     if request.method == 'POST':
         form = Profile_form(request.POST,request.FILES)
         if form.is_valid(): 
@@ -49,4 +35,19 @@ def profile_registration(request):
     else:
         form = Profile_form()
     return render(request,'account/profile_form.html', {'form':form})
-        
+
+
+def registration(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit = False )
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            login(request, new_user)
+            return redirect('profile-register')
+    form = UserRegistrationForm()
+    return render(request,'account/register.html', {'form':form})
+
