@@ -48,6 +48,7 @@ def registration(request):
             new_user.save()
             login(request, new_user)
             return redirect('profile-register')
-    form = UserRegistrationForm()
+    else:
+        form = UserRegistrationForm()
     return render(request,'account/register.html', {'form':form})
 
