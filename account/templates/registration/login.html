@@ -21,5 +21,21 @@
 <p>
     <a href="{%url 'password-reset'%}">forgotten password</a>
 </p>
+
+<div class="social">
+    <ul>
+        <li class="facebook">
+            <a href='{% url "social:begin" "facebook" %}'>
+                sign in with  facebook
+            </a>
+        </li>
+        <li class="google">
+            <a href='{% url "social:begin" "google-oauth2" %}'>Login with
+          Google</a>
+        </li>
+    </ul>
+
+</div>
+
 {%endif%}
 {%endblock content%}
