@@ -1,4 +1,5 @@
-from django.core.files.base import ContentFile
+import os
+from django.core.files import File
 import requests
 from urllib import request
 from django.utils.text import slugify
@@ -27,9 +28,23 @@ class ImageForm(ModelForm):
         extension = image_url.rsplit('.',1)[1].lower()
         image_name  = f"{name}.{extension}"
         #response = request.urlopen(image_url)
-        response = requests.get(image_url)
-        image.image.save(image_name,ContentFile(response.read(),save=False))
-        
+        response = requests.get(image_url,stream = True)
+        try:
+            response.raise_for_status()
+            
+        except Exception as exc:
+            print('there was a problem')
+        print(type(response))
+        file = open(os.getcwd() + image_name, 'wb')
+        for chunk in response.iter_content(1024):
+            file.write(chunk)
+        file.close()
+        open_file = open(os.getcwd() + image_name, 'rb')
+
+        content = File(file = open_file , name = image_name)
+        image.image.save(name = image_name,content= content, save= False)
+
+        open_file.close()
         if commit:
             image.save()
         return image

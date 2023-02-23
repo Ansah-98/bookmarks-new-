@@ -2,7 +2,12 @@
 {%block content%}
 
 <h1>Dashboard</h1>
-<p>Welcome to Dashboard</p>
-
+{%with total_images_created =request.user.images_created.count%}
+<p>Welcome to Dashboard. You have {{total_images_created}} image {{total_images_created|pluralize}}</p>
+{%endwith%}
+<p>
+    Drag the following button to your bookmark toolbar to drag images from other websites 
+    <a href="javasript:{%include static/sripts/bookmarklet_launcher.js %}" class="button">Bookmark it</a>
+</p>
 
 {%endblock content%}
