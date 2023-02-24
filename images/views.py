@@ -20,3 +20,7 @@ def image_create(request):
         form = ImageForm(data = request.GET)
     return render(request,'images/create.html',
     {'section':'images', 'form':form})
+
+def image_detail(request,id):
+    image  = Images.objects.get(pk =id)
+    return render(request,'image/detail.html', {'section':'detail','image':image})
