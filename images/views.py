@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 # Create your views here.
@@ -24,3 +25,19 @@ def image_create(request):
 def image_detail(request,id):
     image  = Images.objects.get(pk =id)
     return render(request,'image/detail.html', {'section':'detail','image':image})
+
+@login_required
+def image_likes(request):
+    image_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if image_id and action:
+        try:
+            image  = Images.objects.get(pk = image_id)
+            if action == 'like':
+                image.user_likes.add(request.user)
+            else:
+                image.user_likes.remove(request.user)
+            return JsonResponse({'status': 'ok'})
+        except:
+            pass        
+    return JsonResponse({'status': 'error'})
