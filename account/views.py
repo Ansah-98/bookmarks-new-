@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse
@@ -51,4 +52,15 @@ def registration(request):
     else:
         form = UserRegistrationForm()
     return render(request,'account/register.html', {'form':form})
+
+@login_required
+def user_list(request):
+    users = User.objects.all()
+    return render(request, 'account/list_users.html',{'section':'people','users':users})
+
+@login_required
+def user_detail(request,username):
+    user  = User.objects.filter(username=username)
+
+    return render(request,'account/user_detail.html',{'section':'people','user':user})
 

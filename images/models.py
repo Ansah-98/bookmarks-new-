@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.utils.text import slugify
 from django.db import models
-
+from django.contrib.auth import get_user_model
 # Create your models here.
 from django.conf import Settings
 from django.contrib.auth.models import User
@@ -36,10 +36,12 @@ class Contact(models.Model):
     created = models.DateTimeField(auto_now_add=True,db_index=True)
 
     class Meta:
-        ordering = ('-created') 
+        ordering = ('-created',) 
     def __str__(self):
         return f'{self.user_from} follows {self.user_to}'
-user_model = User()
+user_model = get_user_model()
 user_model.add_to_class('following',models.ManyToManyField('self',
                                                            through=Contact,
-                                                           symmetrical=False))
+                                                           related_name='followers',
+                                                           symmetrical=False
+                        ))
