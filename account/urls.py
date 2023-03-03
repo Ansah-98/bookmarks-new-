@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_view,dashboard,registration,profile_register,user_list,user_detail
+from .views import login_view,dashboard,registration,profile_register,user_list,user_detail,user_follow
 from django.contrib.auth import views as auth_views
 
 
@@ -15,4 +15,5 @@ urlpatterns = [#path('login/',login_view, name = 'login'),
         path('register_user', registration,name  = 'user-registration' ),
         path('pro_register', profile_register,name = 'profile-register' ),
         path('users', user_list,name='user-list' ),
-        path('user-detail', user_detail, name  = 'user_detail')]
+        path('user-detail/username', user_detail, name  = 'user_detail'),
+        path('follow',user_follow,name = 'follow')]
